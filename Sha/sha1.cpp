@@ -72,9 +72,17 @@ void Sha1Class::addUncounted(uint8_t data) {
   }
 }
 
-void Sha1Class::write(uint8_t data) {
+#if defined(ARDUINO) && ARDUINO >= 100
+size_t
+#else
+void
+#endif
+Sha1Class::write(uint8_t data) {
   ++byteCount;
   addUncounted(data);
+#if defined(ARDUINO) && ARDUINO >= 100
+  return 1;
+#endif
 }
 
 void Sha1Class::pad() {
